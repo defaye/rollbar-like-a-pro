@@ -10,7 +10,6 @@
       "matches": ["https://app.rollbar.com/*"],
       "js": [
         "jquery-3.7.1.min.js",
-        "vue.global.js",
         "content.js"
       ],
       "css": ["styles.css"]
