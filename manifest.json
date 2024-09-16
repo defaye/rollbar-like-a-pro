@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Rollbar Pro",
+  "name": "Rollbar like a Pro",
   "version": "1.0",
   "permissions": [
     "https://app.rollbar.com/*"
