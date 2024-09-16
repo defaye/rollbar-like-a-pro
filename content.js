@@ -3,7 +3,8 @@ $(document).ready(function () {
   const defaultPresets = [
     "Let's see if it happens again.",
     "Not frequent, leaving open to accumulate.",
-    "Further investigation needed."
+    "Further investigation needed.",
+    "JID #{request.params.jid} completed successfully."
   ];
 
   // Helper function to load presets from local storage or use default presets
@@ -17,13 +18,45 @@ $(document).ready(function () {
     localStorage.setItem('presetComments', JSON.stringify(presets));
   }
 
+  // Helper function to extract parameter value from the page text
+  function extractParamValue(paramName) {
+    const paramRegex = new RegExp(`${paramName}\\s*([a-zA-Z0-9\-_.]+)`, 'i');
+    const pageContent = document.body.innerText; // Get text content of the body element
+    const match = pageContent.match(paramRegex);
+    return match ? match[1] : null;
+  }
+
+  // Function to replace placeholders in preset comments
+  function replacePlaceholders(comment) {
+    const regex = /#{(request\.params\.\w+)}/g;
+    let missingValue = false;
+    
+    const updatedComment = comment.replace(regex, (match, paramName) => {
+      const value = extractParamValue(paramName);
+      if (!value) {
+        missingValue = true; // Flag if any placeholder has no value
+        return match;
+      }
+      return value;
+    });
+    
+    return missingValue ? null : updatedComment; // Return null if any placeholder has no value
+  }
+
   // Function to inject the select dropdown and edit icon into the form
   function injectPresetCommentDropdown() {
     // Ensure the dropdown is only added once
     if ($('#preset-comment-select').length === 0) {
       const presets = loadPresets();
-      
-      let presetOptions = presets.map(preset => `<option value="${preset}">${preset}</option>`).join('');
+
+      let presetOptions = presets
+        .map(preset => {
+          // Replace placeholders with actual values, or exclude the preset if missing values
+          const updatedPreset = replacePlaceholders(preset);
+          return updatedPreset ? `<option value="${updatedPreset}">${updatedPreset}</option>` : null;
+        })
+        .filter(option => option) // Filter out null options
+        .join('');
 
       const presetDropdown = `
         <div class="flex flex-col mt-4">
@@ -112,7 +145,7 @@ $(document).ready(function () {
     }
   }
 
-  // Monitor for the modal to open (can happen from either area you described)
+  // Monitor for the modal to open
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length) {
