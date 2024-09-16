@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Rollbar like a Pro",
   "version": "1.0",
-  "permissions": [
+  "host_permissions": [
     "https://app.rollbar.com/*"
   ],
   "content_scripts": [
