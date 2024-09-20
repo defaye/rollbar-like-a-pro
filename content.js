@@ -28,7 +28,7 @@ $(document).ready(function () {
 
   // Function to replace placeholders in preset comments
   function replacePlaceholders(comment) {
-    const regex = /#{(request\.params\.\w+)}/g;
+    const regex = /#{(\w+)}/g;
     let missingValue = false;
     
     const updatedComment = comment.replace(regex, (match, paramName) => {
