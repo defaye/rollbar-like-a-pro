@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Development
+*.log
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# Editor directories
+.vscode/
+.idea/
+
+# Test results
+test-results/
+playwright-report/
+
+# Old files from v1
+jquery-3.7.1.min.js
+content.js
+styles.css
+manifest.json

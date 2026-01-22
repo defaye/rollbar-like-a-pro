@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset styles to ensure isolation within shadow DOM */
+:host {
+  all: initial;
+  display: block;
+  pointer-events: auto !important;
+}
+
+/* Base styles for our extension components */
+* {
+  box-sizing: border-box;
+  pointer-events: auto !important;
+}
+
+/* Ensure buttons are clickable */
+button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
